@@ -2,6 +2,12 @@ from rest_framework.serializers import ModelSerializer
 from trello.models import *
 
 
+class ListSerializer(ModelSerializer):
+    class Meta:
+        model = List
+        fields = ['name']
+
+
 class UserCreateSerializer(ModelSerializer):
     class Meta:
         model = User
@@ -28,10 +34,11 @@ class VisibilitySerializer(ModelSerializer):
 
 class BoardSerializer(ModelSerializer):
     visibility = VisibilitySerializer(read_only=True)
+    lists = ListSerializer(read_only=True, many=True)
 
     class Meta:
         model = Board
-        fields = ['id', 'name', 'description', 'visibility']
+        fields = ['id', 'name', 'description', 'visibility', 'lists']
 
 
 class BoardCreateSerializer(ModelSerializer):

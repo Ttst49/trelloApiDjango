@@ -113,14 +113,15 @@ def delete_board(request, id):
     return Response("Supprimé avec success", status=status.HTTP_200_OK)
 
 
+# Ask for a board id
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def create_list(request):
+def create_list(request, id):
     if request.method == 'POST':
-        list = BoardCreateSerializer(data=request.data)
-        if list.is_valid():
-            list.save(members=[request.user])
-            return Response(list.data, status=status.HTTP_201_CREATED)
+        board_list = ListSerializer(data=request.data)
+        if board_list.is_valid():
+            board_list.save(board=get_object_or_404(Board, id=id))
+            return Response(board_list.data, status=status.HTTP_201_CREATED)
     return Response("Mauvaise requete", status=status.HTTP_400_BAD_REQUEST)
 
 
