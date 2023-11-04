@@ -23,6 +23,7 @@ urlpatterns = [
 
     # list paths
     path('list/create/<str:id>', views.create_list, name='createList'),
+    path('list/edit/<str:id>', views.edit_list, name='editList'),
 
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),

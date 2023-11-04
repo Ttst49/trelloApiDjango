@@ -5,7 +5,7 @@ from trello.models import *
 class ListSerializer(ModelSerializer):
     class Meta:
         model = List
-        fields = ['name']
+        fields = ['id', 'name']
 
 
 class UserCreateSerializer(ModelSerializer):
