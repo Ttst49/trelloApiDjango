@@ -31,7 +31,7 @@ class Board(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     members = models.ManyToManyField(User, related_name='members')
-    is_starred = models.BooleanField(default=False, blank=True)
+    is_starred = models.BooleanField(default=False)
     lists = models.ManyToManyField(List, null=True, related_name='lists', blank=True)
     visibility = models.ForeignKey(Visibility, on_delete=models.CASCADE)
 
@@ -42,8 +42,8 @@ class Workspace(models.Model):
     description = models.TextField()
     members = models.ManyToManyField(User, related_name='workspace_members')
     owner = models.ForeignKey(User, null=True, related_name='workspace_owner', on_delete=models.SET_NULL)
+    boards = models.ManyToManyField(Board, null=True, related_name="workspace_boards", blank=True)
 
 
 class ArchiveList(models.Model):
     archived_items = models.ManyToManyField(List, related_name='archived_lists')
-

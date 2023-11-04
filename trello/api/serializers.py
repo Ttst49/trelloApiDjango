@@ -14,15 +14,6 @@ class UserSerializer(ModelSerializer):
         fields = ["id", "username"]
 
 
-class WorkspaceSerializer(ModelSerializer):
-    owner = UserSerializer()
-    members = UserSerializer(many=True)
-
-    class Meta:
-        model = Workspace
-        fields = ['id', 'name', 'description', 'type', 'owner', 'members']
-
-
 class WorkspaceCreateSerializer(ModelSerializer):
     class Meta:
         model = Workspace
@@ -36,13 +27,24 @@ class VisibilitySerializer(ModelSerializer):
 
 
 class BoardSerializer(ModelSerializer):
-    visibility = VisibilitySerializer()
+    visibility = VisibilitySerializer(read_only=True)
 
     class Meta:
         model = Board
         fields = ['id', 'name', 'description', 'visibility']
 
+
 class BoardCreateSerializer(ModelSerializer):
     class Meta:
         model = Board
         fields = ['id', 'name', 'description', "visibility"]
+
+
+class WorkspaceSerializer(ModelSerializer):
+    owner = UserSerializer()
+    members = UserSerializer(many=True)
+    boards = BoardSerializer(many=True)
+
+    class Meta:
+        model = Workspace
+        fields = ['id', 'name', 'description', 'type', 'owner', 'members', 'boards']

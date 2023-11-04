@@ -4,8 +4,7 @@ from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from trello.api.serializers import WorkspaceSerializer, UserCreateSerializer, BoardSerializer, \
-    WorkspaceCreateSerializer, BoardCreateSerializer
+from trello.api.serializers import *
 from trello.models import Workspace, Board
 
 
@@ -76,13 +75,17 @@ def show_board(request, id):
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
-def create_board(request):
+def create_board(request, id):
     if request.method == 'POST':
-        board = BoardCreateSerializer(data=request.data)
-        if board.is_valid():
-            board.save(members=[request.user])
-            return Response(board.data, status=status.HTTP_201_CREATED)
-    return Response("Bad Request, an error occurred", status=status.HTTP_400_BAD_REQUEST)
+        workspace = get_object_or_404(Workspace, id=id)
+        if workspace is not None:
+            board = BoardCreateSerializer(data=request.data)
+            if board.is_valid():
+                board.save(members=[request.user])
+                workspace.boards.add(board.data.get('id'))
+                return Response(board.data, status=status.HTTP_201_CREATED)
+        return Response('Pas de workspace où ajouter ce tableau', status=status.HTTP_400_BAD_REQUEST)
+    return Response("Mauvaise requete", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
@@ -92,11 +95,11 @@ def edit_board(request, id):
     if board is not None:
         if not board.members.filter(id=request.user.id).exists():
             return Response("Vous n'êtes pas membre de ce tableau", status=status.HTTP_403_FORBIDDEN)
-        board_serialized = BoardSerializer(data=request.data, instance=board)
+        board_serialized = BoardCreateSerializer(data=request.data, instance=board)
         if board_serialized.is_valid():
             board_serialized.save(owner=request.user, members=[request.user])
             return Response(board_serialized.data, status=status.HTTP_200_OK)
-    return Response("Bad Request", status=status.HTTP_400_BAD_REQUEST)
+    return Response("Mauvaise requete", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
@@ -110,8 +113,15 @@ def delete_board(request, id):
     return Response("Supprimé avec success", status=status.HTTP_200_OK)
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def create_list(request):
-    pass
+    if request.method == 'POST':
+        list = BoardCreateSerializer(data=request.data)
+        if list.is_valid():
+            list.save(members=[request.user])
+            return Response(list.data, status=status.HTTP_201_CREATED)
+    return Response("Mauvaise requete", status=status.HTTP_400_BAD_REQUEST)
 
 
 def edit_list(request, id):
@@ -137,3 +147,5 @@ def edit_card(request, id):
 
 def delete_card(request, id):
     pass
+
+# pouvoir envoyer des requetes pour rejoindre des workspaces et des tableaux
