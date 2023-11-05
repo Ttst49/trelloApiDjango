@@ -44,7 +44,7 @@ def edit_workspace(request, id):
         return Response("Vous n'êtes pas le propriétaire de cette workspace", status=status.HTTP_403_FORBIDDEN)
     workspace_serialized = WorkspaceSerializer(data=request.data, instance=workspace)
     if workspace_serialized.is_valid():
-        workspace_serialized.save(owner=request.user, members=[request.user])
+        workspace_serialized.save()
         return Response(workspace_serialized.data, status=status.HTTP_200_OK)
 
 
@@ -84,7 +84,7 @@ def edit_board(request, id):
         return Response("Vous n'êtes pas membre de ce tableau", status=status.HTTP_403_FORBIDDEN)
     board_serialized = BoardCreateSerializer(data=request.data, instance=board)
     if board_serialized.is_valid():
-        board_serialized.save(owner=request.user, members=[request.user])
+        board_serialized.save()
         return Response(board_serialized.data, status=status.HTTP_200_OK)
 
 
@@ -97,6 +97,14 @@ def delete_board(request, id):
             return Response("Vous n'êtes pas membre de ce tableau", status=status.HTTP_403_FORBIDDEN)
     board.delete()
     return Response("Supprimé avec success", status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def show_list(request, id):
+    list_showed = get_object_or_404(List, id=id)
+    serialized_list = ListSerializer(list_showed)
+    return Response(serialized_list.data, status=status.HTTP_200_OK)
 
 
 # Ask for a board id
@@ -115,7 +123,7 @@ def edit_list(request, id):
     edited_list = get_object_or_404(List, id=id)
     list_serialized = ListSerializer(edited_list, data=request.data)
     if list_serialized.is_valid():
-        list_serialized.save(board=edited_list.board)
+        list_serialized.save()
     return Response(list_serialized.data, status=status.HTTP_200_OK)
 
 
@@ -127,22 +135,40 @@ def delete_list(request, id):
     return Response("votre liste a bien été supprimée et placée dans la liste archivée",status=status.HTTP_200_OK)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_card(request, id):
     card = get_object_or_404(Card, id=id)
     serialized_card = CardSerializer(card)
     return Response(serialized_card.data, status=status.HTTP_200_OK)
 
 
-def create_card(request):
-    pass
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_card(request, id):
+    card = CardSerializer(data=request.data)
+    if card.is_valid():
+        card.save(list=get_object_or_404(List, id=id))
+        return Response(card.data, status=status.HTTP_201_CREATED)
 
 
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def edit_card(request, id):
-    pass
+    card = get_object_or_404(Card, id=id)
+    card_serialized = CardSerializer(card, data=request.data)
+    if card_serialized.is_valid():
+        card_serialized.save()
+    return Response(card_serialized.data, status=status.HTTP_200_OK)
 
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_card(request, id):
-    pass
+    card = get_object_or_404(Card, id=id)
+    card.delete()
+    return Response("votre carte a bien été supprimée", status=status.HTTP_200_OK)
+
 
 # pouvoir envoyer des requetes pour rejoindre des workspaces et des tableaux
 # voir la liste archivée/ajouter items dans la liste archivée
