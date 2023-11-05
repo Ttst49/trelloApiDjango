@@ -18,9 +18,15 @@ class Visibility(models.Model):
         return self.name
 
 
-class Card(models.Model):
+class Workspace(models.Model):
     name = models.CharField(max_length=255)
+    type = models.ForeignKey(WorkspaceType, null=True, on_delete=models.SET_NULL)
     description = models.TextField()
+    members = models.ManyToManyField(User, related_name='workspace_members')
+    owner = models.ForeignKey(User, null=True, related_name='workspace_owner', on_delete=models.SET_NULL)
+
+    def __str__(self):
+        return self.name
 
 
 class Board(models.Model):
@@ -29,22 +35,21 @@ class Board(models.Model):
     members = models.ManyToManyField(User, related_name='members')
     is_starred = models.BooleanField(default=False)
     visibility = models.ForeignKey(Visibility, on_delete=models.CASCADE)
+    workspace = models.ForeignKey(Workspace, null=False, on_delete=models.CASCADE, related_name='boards')
 
 
 class List(models.Model):
     name = models.CharField(max_length=255, default="liste non nommée")
-    cards = models.ManyToManyField(Card, related_name='cards', blank=True)
-    board = models.ForeignKey(Board, null=False, on_delete=models.CASCADE, related_name='lists')
+    board = models.ForeignKey(Board, default="test", null=False, on_delete=models.CASCADE, related_name='lists')
 
 
-class Workspace(models.Model):
+class Card(models.Model):
     name = models.CharField(max_length=255)
-    type = models.ForeignKey(WorkspaceType, null=True, on_delete=models.SET_NULL)
     description = models.TextField()
-    members = models.ManyToManyField(User, related_name='workspace_members')
-    owner = models.ForeignKey(User, null=True, related_name='workspace_owner', on_delete=models.SET_NULL)
-    boards = models.ManyToManyField(Board, related_name="workspace_boards", blank=True)
+    list = models.ForeignKey(List, null=False, related_name='cards', on_delete=models.CASCADE)
 
 
+"""
 class ArchiveList(models.Model):
     archived_items = models.ManyToManyField(List, related_name='archived_lists')
+"""

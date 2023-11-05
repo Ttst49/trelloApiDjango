@@ -2,10 +2,18 @@ from rest_framework.serializers import ModelSerializer
 from trello.models import *
 
 
+class CardSerializer(ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ['id', 'name', 'description', ]
+
+
 class ListSerializer(ModelSerializer):
+    cards = CardSerializer(many=True)
+
     class Meta:
         model = List
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'cards']
 
 
 class UserCreateSerializer(ModelSerializer):

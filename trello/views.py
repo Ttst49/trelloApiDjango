@@ -72,8 +72,7 @@ def create_board(request, id):
         workspace = get_object_or_404(Workspace, id=id)
         board = BoardCreateSerializer(data=request.data)
         if board.is_valid():
-            board.save(members=[request.user])
-            workspace.boards.add(board.data.get('id'))
+            board.save(members=[request.user], workspace=workspace)
             return Response(board.data, status=status.HTTP_201_CREATED)
 
 
@@ -120,13 +119,18 @@ def edit_list(request, id):
     return Response(list_serialized.data, status=status.HTTP_200_OK)
 
 
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
 def delete_list(request, id):
-    # put items in the archive list and remove it from the board
-    pass
+    removed_list = get_object_or_404(List, id=id)
+    removed_list.delete()
+    return Response("votre liste a bien été supprimée et placée dans la liste archivée",status=status.HTTP_200_OK)
 
 
-def show_card(request):
-    pass
+def show_card(request, id):
+    card = get_object_or_404(Card, id=id)
+    serialized_card = CardSerializer(card)
+    return Response(serialized_card.data, status=status.HTTP_200_OK)
 
 
 def create_card(request):
@@ -141,3 +145,4 @@ def delete_card(request, id):
     pass
 
 # pouvoir envoyer des requetes pour rejoindre des workspaces et des tableaux
+# voir la liste archivée/ajouter items dans la liste archivée
