@@ -40,6 +40,7 @@ def create_workspace(request):
     if workspace.is_valid():
         workspace.save(owner=request.user, members=[request.user])
         return Response(workspace.data, status=status.HTTP_201_CREATED)
+    return Response("an error occurred", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
