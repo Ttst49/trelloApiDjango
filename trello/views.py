@@ -8,6 +8,7 @@ from trello.api.serializers import *
 from trello.models import Workspace, Board
 
 
+
 @api_view(['POST'])
 def create_user(request):
     if request.method == 'POST':
