@@ -8,15 +8,20 @@ from trello.api.serializers import *
 from trello.models import Workspace, Board
 
 
-
 @api_view(['POST'])
 def create_user(request):
     if request.method == 'POST':
-        user = UserCreateSerializer(data=request.data)
-        if user.is_valid():
-            user.save()
-            return Response(user.data.username, status=status.HTTP_201_CREATED)
-    return Response("nope sorry", status=status.HTTP_400_BAD_REQUEST)
+        serializer = UserRegistrationSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        response = {
+            'success': 'True',
+            'status code': status.HTTP_200_OK,
+            'message': 'User registered  successfully',
+        }
+        status_code = status.HTTP_200_OK
+        return Response(response, status=status_code)
+    return Response("something went wrong", status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET'])
@@ -133,7 +138,7 @@ def edit_list(request, id):
 def delete_list(request, id):
     removed_list = get_object_or_404(List, id=id)
     removed_list.delete()
-    return Response("votre liste a bien été supprimée et placée dans la liste archivée",status=status.HTTP_200_OK)
+    return Response("votre liste a bien été supprimée et placée dans la liste archivée", status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
@@ -169,7 +174,6 @@ def delete_card(request, id):
     card = get_object_or_404(Card, id=id)
     card.delete()
     return Response("votre carte a bien été supprimée", status=status.HTTP_200_OK)
-
 
 # pouvoir envoyer des requetes pour rejoindre des workspaces et des tableaux
 # voir la liste archivée/ajouter items dans la liste archivée
