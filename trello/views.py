@@ -67,6 +67,14 @@ def delete_workspace(request, id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
+def show_all_board(request, id):
+    boards = Board.objects.filter(workspace_id=id)
+    serialized_board = BoardSerializer(boards, many=True)
+    return Response(serialized_board.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def show_board(request, id):
     board = get_object_or_404(Board, id=id)
     serialized_board = BoardSerializer(board)
@@ -82,6 +90,7 @@ def create_board(request, id):
         if board.is_valid():
             board.save(members=[request.user], workspace=workspace)
             return Response(board.data, status=status.HTTP_201_CREATED)
+    return Response(board.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])

@@ -16,6 +16,7 @@ urlpatterns = [
     path('workspace/delete/<str:id>', views.delete_workspace, name='deleteWorkspace'),
 
     # board paths
+    path('board/showAll/<str:id>', views.show_all_board, name='showAllBoard'),
     path('board/show/<str:id>', views.show_board, name='showBoard'),
     path('board/create/<str:id>', views.create_board, name='createBoard'),
     path('board/edit/<str:id>', views.edit_board, name='editBoard'),
