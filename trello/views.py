@@ -3,7 +3,6 @@ from rest_framework.decorators import permission_classes, api_view
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from trello.api.serializers import *
 from trello.models import Workspace, Board
 
@@ -103,6 +102,7 @@ def edit_board(request, id):
     if board_serialized.is_valid():
         board_serialized.save()
         return Response(board_serialized.data, status=status.HTTP_200_OK)
+    return Response(board_serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
