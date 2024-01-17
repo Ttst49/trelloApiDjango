@@ -34,6 +34,6 @@ urlpatterns = [
     path('card/delete/<str:id>', views.delete_card, name='deleteCard'),
 
 
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

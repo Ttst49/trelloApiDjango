@@ -49,10 +49,11 @@ def edit_workspace(request, id):
     workspace = get_object_or_404(Workspace, id=id)
     if workspace.owner != request.user:
         return Response("Vous n'êtes pas le propriétaire de cette workspace", status=status.HTTP_403_FORBIDDEN)
-    workspace_serialized = WorkspaceSerializer(data=request.data, instance=workspace)
+    workspace_serialized = WorkspaceCreateSerializer(data=request.data, instance=workspace)
     if workspace_serialized.is_valid():
         workspace_serialized.save()
         return Response(workspace_serialized.data, status=status.HTTP_200_OK)
+    return Response(workspace_serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
