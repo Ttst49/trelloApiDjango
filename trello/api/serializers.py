@@ -6,7 +6,7 @@ from trello.models import *
 class CardSerializer(ModelSerializer):
     class Meta:
         model = Card
-        fields = ['id', 'name', 'description', ]
+        fields = ['id', 'name', 'description']
 
 
 class ListSerializer(ModelSerializer):
