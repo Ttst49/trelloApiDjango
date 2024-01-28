@@ -17,8 +17,13 @@ class ListSerializer(ModelSerializer):
         fields = ['id', 'name', 'cards']
 
 
-class UserRegistrationSerializer(serializers.ModelSerializer):
+class ListCreationSerializer(ModelSerializer):
+    class Meta:
+        model = List
+        fields = ['id', 'name']
 
+
+class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'password')
