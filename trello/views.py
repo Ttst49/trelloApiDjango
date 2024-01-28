@@ -128,10 +128,11 @@ def show_list(request, id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_list(request, id):
-    board_list = ListSerializer(data=request.data)
+    board_list = ListCreationSerializer(data=request.data)
     if board_list.is_valid():
         board_list.save(board=get_object_or_404(Board, id=id))
         return Response(board_list.data, status=status.HTTP_201_CREATED)
+    return Response(board_list.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
