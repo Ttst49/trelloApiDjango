@@ -238,6 +238,61 @@
         </div>
 
 
+    <h3 class="uppercase">Cards</h3>
+
+        <div class="blocOfCode">
+            <div class="code">
+                <p class="codeTitle">Show a specific card</p>
+                <code>/card/show/{Card Id}</code>
+                <div class="button get">get</div>
+                <div class="log">loggedIn</div>
+            </div>
+        </div>
+
+        <div class="blocOfCode">
+            <div class="code">
+                <p class="codeTitle">Create a new card</p>
+                <code>/card/create/{List Id}</code>
+                <div class="button post">post</div>
+                <div class="log">loggedIn</div>
+            </div>
+            <div class="jsonBody">
+                <span>Create Card</span>
+                <span>
+                    {
+                    <br> "name":"string",
+                    <br> "description":"string"
+                    <br>
+                    }
+                </span>
+            </div>
+        </div>
+
+        <div class="blocOfCode">
+            <div class="code">
+                <p class="codeTitle">Edit a card</p>
+                <code>/card/edit/{Card Id}</code>
+                <div class="button put">put</div>
+                <div class="log">loggedIn</div>
+            </div>
+            <div class="jsonBody"><span>Card Edition</span>
+                <span>
+                    {
+                    <br> "name":"string",
+                    <br> "description":"string"
+                    <br>
+                    }
+                </span></div>
+        </div>
+
+        <div class="blocOfCode">
+            <div class="code">
+                <p class="codeTitle">Delete a card</p>
+                <code>/card/delete/{Card Id}</code>
+                <div class="button delete">delete</div>
+                <div class="log">loggedIn</div>
+            </div>
+        </div>
 
 
     </div>
