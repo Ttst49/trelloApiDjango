@@ -1,10 +1,20 @@
+from django.http import HttpResponse
+from django.template import loader
 from rest_framework import status
-from rest_framework.decorators import permission_classes, api_view
+from rest_framework.decorators import permission_classes, api_view, renderer_classes
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from trello.api.serializers import *
 from trello.models import Workspace, Board
+from rest_framework.renderers import TemplateHTMLRenderer
+
+
+@api_view(['GET'])
+@renderer_classes([TemplateHTMLRenderer])
+def show_doc(request):
+    template = loader.get_template('doc.html')
+    return HttpResponse(template.render({}, request))
 
 
 @api_view(['POST'])
