@@ -10,7 +10,7 @@ urlpatterns = [
     path('register', views.create_user, name='createUser'),
 
     # doc path
-    path('doc', views.show_doc, name='doc'),
+    path('', views.show_doc, name='doc'),
 
     # workspaces paths
     path('index', views.index, name='index'),
@@ -37,6 +37,7 @@ urlpatterns = [
     path('card/edit/<str:id>', views.edit_card, name='editCard'),
     path('card/delete/<str:id>', views.delete_card, name='deleteCard'),
 
+    # token paths
     path('token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
 ]
