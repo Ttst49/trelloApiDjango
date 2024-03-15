@@ -56,10 +56,13 @@
             <div class="jsonBody"><span>Refreshing token</span><span>{ <br> "refresh":"{Refresh Token}" <br> }</span></div>
         </div>
 
+
+
+        <h2 class="uppercase">WORKSPACES</h2>
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">show all users from the application and their ids</p>
-                <code>/showUsers</code>
+                <p class="codeTitle">Show all the workspaces from current user</p>
+                <code>/index</code>
                 <div class="button get">get</div>
                 <div class="log">loggedIn</div>
             </div>
@@ -67,77 +70,52 @@
 
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">show all invitations from current user</p>
-                <code>/invitations/index</code>
-                <div class="button get">get</div>
-                <div class="log">loggedIn</div>
-            </div>
-        </div>
-
-        <div class="blocOfCode">
-            <div class="code">
-                <p class="codeTitle">accept an invitation for a private Event</p>
-                <code>/invitations/accept/{invitation Id}</code>
-                <div class="button put">put</div>
-                <div class="log">loggedIn</div>
-            </div>
-        </div>
-
-        <div class="blocOfCode">
-            <div class="code">
-                <p class="codeTitle">deny an invitation for a private Event</p>
-                <code>/invitations/deny/{invitation Id}</code>
-                <div class="button put">put</div>
-                <div class="log">loggedIn</div>
-            </div>
-        </div>
-
-
-
-
-
-        <h2 class="uppercase">EVENTS</h2>
-        <h3 class="uppercase">public events</h3>
-        <div class="blocOfCode">
-            <div class="code">
-                <p class="codeTitle">Show all the public events</p>
-                <code>/public/event/index</code>
-                <div class="button get">get</div>
-                <div class="log">loggedIn</div>
-            </div>
-        </div>
-
-        <div class="blocOfCode">
-            <div class="code">
-                <p class="codeTitle">Attend to a public event with it ID</p>
-                <code>/public/event/attend/{EventId}</code>
-                <div class="button get">get</div>
-                <div class="log">loggedIn</div>
-            </div>
-        </div>
-
-        <div class="blocOfCode">
-            <div class="code">
-                <p class="codeTitle">Create a new public event</p>
-                <code>/public/event/create</code>
+                <p class="codeTitle">Create a new workspace</p>
+                <code>/workspace/create</code>
                 <div class="button post">post</div>
                 <div class="log">loggedIn</div>
             </div>
-            <div class="jsonBody"><span>Public event creation</span><span>{ <br> "place":"string",<br>
-    "description":"event description",<br>
-    "startOn": "date | format (d-m-Y)",<br>
-    "endOn":"date | format (d-m-Y)",<br>
-    "isPlacePrivate":true/false <br> }</span></div>
+            <div class="jsonBody">
+                <span>Create Workspace</span>
+                <span>
+                    {
+                    <br> "name":"string"
+                    <br> "description":"string"
+                    <br> "type":number
+                    <br>
+                    }
+                </span>
+            </div>
         </div>
 
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">Get all participants from a public event</p>
-                <code>/public/event/getParticipants/{EventId}</code>
-                <div class="button get">get</div>
+                <p class="codeTitle">Edit a workspace</p>
+                <code>/workspace/edit/{Workspace Id}</code>
+                <div class="button put">put</div>
+                <div class="log">loggedIn</div>
+            </div>
+            <div class="jsonBody"><span>Workspace Edition</span>
+                <span>
+                    {
+                    <br> "name":"string",
+                    <br> "description":"string",
+                    <br> "type":number
+                    <br>
+                    }
+                </span></div>
+        </div>
+
+        <div class="blocOfCode">
+            <div class="code">
+                <p class="codeTitle">Delete a workspace</p>
+                <code>/workspace/delete/{Workspace Id}</code>
+                <div class="button delete">delete</div>
                 <div class="log">loggedIn</div>
             </div>
         </div>
+
+
 
         <h3 class="uppercase">private event</h3>
         <div class="blocOfCode">
