@@ -117,11 +117,11 @@
 
 
 
-        <h3 class="uppercase">private event</h3>
+        <h3 class="uppercase">Boards</h3>
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">Show all the private events since you're participating</p>
-                <code>/private/event/index</code>
+                <p class="codeTitle">Show all the boards</p>
+                <code>/board/showAll/{Workspace Id}</code>
                 <div class="button get">get</div>
                 <div class="log">loggedIn</div>
             </div>
@@ -129,8 +129,8 @@
 
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">Show a unique private event since you're participating</p>
-                <code>/private/event/showEvent/{Event ID}</code>
+                <p class="codeTitle">Show a specific board</p>
+                <code>/board/show/{Board Id}</code>
                 <div class="button get">get</div>
                 <div class="log">loggedIn</div>
             </div>
@@ -138,52 +138,54 @@
 
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">Create a new private event</p>
-                <code>/private/event/create</code>
+                <p class="codeTitle">Create a new board</p>
+                <code>/board/create/{Workspace Id}</code>
                 <div class="button post">post</div>
                 <div class="log">loggedIn</div>
             </div>
-            <div class="jsonBody"><span>Private event creation</span><span>{ <br> "place":"string",<br>
-    "description":"event description",<br>
-    "startOn": "date | format (d-m-Y)",<br>
-    "endOn":"date | format (d-m-Y)",<br>
-    "isPlacePrivate":true/false <br> }</span></div>
-        </div>
-
-        <div class="blocOfCode">
-            <div class="code">
-                <p class="codeTitle">Invite a user to a private event</p>
-                <code>/private/event/invite/{EventID}/{Invited User Id}</code>
-                <div class="button post">post</div>
-                <div class="log">loggedIn</div>
+            <div class="jsonBody">
+                <span>Create Board</span>
+                <span>
+                    {
+                    <br> "name":"string"
+                    <br> "description":"string"
+                    <br> "visibility":number
+                    <br>
+                    }
+                </span>
             </div>
         </div>
 
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">Cancel or schedule again an existing event</p>
-                <code>/private/event/changeStatus/{EventID}</code>
+                <p class="codeTitle">Edit a board</p>
+                <code>/board/edit/{Board Id}</code>
                 <div class="button put">put</div>
                 <div class="log">loggedIn</div>
             </div>
+            <div class="jsonBody"><span>Board Edition</span>
+                <span>
+                    {
+                    <br> "name":"string",
+                    <br> "description":"string",
+                    <br> "visibility":number
+                    <br>
+                    }
+                </span></div>
         </div>
 
         <div class="blocOfCode">
             <div class="code">
-                <p class="codeTitle">Edit an existing private event</p>
-                <code>/private/event/edit/{eventID}</code>
-                <div class="button put">put</div>
+                <p class="codeTitle">Delete a board</p>
+                <code>/board/delete/{Board Id}</code>
+                <div class="button delete">delete</div>
                 <div class="log">loggedIn</div>
-            </div>
-                <div class="jsonBody"><span>Private event edition</span><span>{ <br> "place":"string",<br>
-        "description":"event description",<br>
-        "startOn": "date | format (d-m-Y)",<br>
-        "endOn":"date | format (d-m-Y)",<br>
-        "isPlacePrivate":true/false <br> }</span></div>
             </div>
         </div>
 
-    <h3 class="uppercase">contributions | linked to private event on private place only</h3>
+        </div>
+
+    <h3 class="uppercase">Lists</h3>
 
     <div class="blocOfCode">
         <div class="code">
