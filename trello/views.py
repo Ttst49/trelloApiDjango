@@ -174,7 +174,7 @@ def show_card(request, id):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def create_card(request, id):
-    card = CardSerializer(data=request.data)
+    card = CardCreationSerializer(data=request.data)
     if card.is_valid():
         card.save(list=get_object_or_404(List, id=id))
         return Response(card.data, status=status.HTTP_201_CREATED)
