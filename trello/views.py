@@ -178,6 +178,7 @@ def create_card(request, id):
     if card.is_valid():
         card.save(list=get_object_or_404(List, id=id))
         return Response(card.data, status=status.HTTP_201_CREATED)
+    return Response(card.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['PUT'])
