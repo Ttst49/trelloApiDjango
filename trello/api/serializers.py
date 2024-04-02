@@ -23,6 +23,12 @@ class ListCreationSerializer(ModelSerializer):
         fields = ['id', 'name']
 
 
+class CardCreationSerializer(ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ['id', 'name']
+
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
