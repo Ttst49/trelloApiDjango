@@ -9,6 +9,12 @@ class CardSerializer(ModelSerializer):
         fields = ['id', 'name', 'description']
 
 
+class CardEditSerializer(ModelSerializer):
+    class Meta:
+        model = Card
+        fields = ['name', 'description', 'list_id']
+
+
 class ListSerializer(ModelSerializer):
     cards = CardSerializer(many=True)
 
