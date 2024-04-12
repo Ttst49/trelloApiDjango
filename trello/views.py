@@ -185,10 +185,11 @@ def create_card(request, id):
 @permission_classes([IsAuthenticated])
 def edit_card(request, id):
     card = get_object_or_404(Card, id=id)
-    card_serialized = CardSerializer(card, data=request.data)
+    card_serialized = CardEditSerializer(card, data=request.data)
     if card_serialized.is_valid():
-        card_serialized.save()
-    return Response(card_serialized.data, status=status.HTTP_200_OK)
+        card_serialized.save(list=get_object_or_404(List,id=request.data['list_id']))
+        return Response(card_serialized.data, status=status.HTTP_200_OK)
+    return Response(card_serialized.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['DELETE'])
