@@ -146,6 +146,7 @@ SIMPLE_JWT = {
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://trelloreact.thibautstachnick.com"
 ]
 
 CORS_ALLOW_METHODS = (
